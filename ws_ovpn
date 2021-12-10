@@ -363,3 +363,27 @@ rm -rf /tmp/abonv*
 echo -e "$DOMAIN_NAME_TLD" > /tmp/abonv_mydns_domain
 echo -e "$MYDNS" > /tmp/abonv_mydns
 echo -e "$MYDNS_ID" > /tmp/abonv_mydns_id
+
+systemctl enable openvpn
+systemctl restart openvpn
+
+ echo -e " Success Installation"
+ echo -e ""
+ echo -e " Service Ports: "
+ echo -e " OpenSSH: 225, 22"
+ echo -e " Stunnel: 443, 444, 587"
+ echo -e " DropbearSSH: 550, 555"
+ echo -e " Squid: 8000, 8080"
+ echo -e " OpenVPN: 25980, 110"
+ echo -e " NGiNX: 86"
+
+echo -e " IP Address: $IPADDR"
+ echo -e " DNS: $MYDNS"
+ echo -e ""
+ echo -e " OpenVPN Configs Download site"
+ echo -e " http://$IPADDR:86"
+ echo -e ""
+ echo -e " [Note] DO NOT RESELL THIS SCRIPT"
+
+ # Clearing all logs from installation
+ rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
