@@ -113,7 +113,7 @@ apt update; apt upgrade -y; rm -rf install; wget https://raw.githubusercontent.c
 bash /etc/slowdns/slowdns-ssh
 startdns
 }
-
+slowdns
 setting
 systemctl enable openvpn
 systemctl restart openvpn
