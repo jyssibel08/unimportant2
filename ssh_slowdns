@@ -1,0 +1,148 @@
+#Bon-chan autoscript installer
+
+rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
+
+
+#changing SSH Banner
+SSH_Banner='https://pastebin.com/raw/H7iNhF7m'
+
+ rm -f /etc/banner
+ wget -qO /etc/banner "$SSH_Banner"
+ dos2unix -q /etc/banner
+ service ssh restart
+ 
+function setting() {
+service ssh restart
+service sshd restart
+service dropbear restart
+systemctl daemon-reload
+}
+
+
+
+#script for auto dns
+
+sudo apt install python -y
+ clear
+[[ ! "$(command -v curl)" ]] && apt install curl -y -qq
+[[ ! "$(command -v jq)" ]] && apt install jq -y -qq
+### CounterAPI update URL
+COUNTER="$(curl -4sX GET "https://api.countapi.xyz/hit/BonvScripts/DebianVPS-Installer" | jq -r '.value')"
+
+IPADDR="$(curl -4skL http://ipinfo.io/ip)"
+
+GLOBAL_API_KEY="60320c3e5c9c277bca1e3721d506a0eb0e10e"
+CLOUDFLARE_EMAIL="jorjanseenearlbade@gmail.com"
+DOMAIN_NAME_TLD="origenesdev.codes"
+DOMAIN_ZONE_ID="db412141e7eda53f113735404d9b77ef"
+### DNS hostname / Payload here
+## Setting variable
+
+####
+## Creating file dump for DNS Records 
+TMP_FILE='/tmp/abonv.txt'
+curl -sX GET "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records?type=A&count=1000&per_page=1000" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "Content-Type: application/json" | python -m json.tool > "$TMP_FILE"
+
+## Getting Existed DNS Record by Locating its IP Address "content" value
+CHECK_IP_RECORD="$(cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.content' | awk '!a[$0]++')"
+
+cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.name' | awk '!a[$0]++' | head -n1 > /tmp/abonv_existed_hostname
+
+cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.id' | awk '!a[$0]++' | head -n1 > /tmp/abonv_existed_dns_id
+
+function ExistedRecord(){
+ MYDNS="$(cat /tmp/abonv_existed_hostname)"
+ MYDNS_ID="$(cat /tmp/abonv_existed_dns_id)"
+}
+
+
+if [[ "$IPADDR" == "$CHECK_IP_RECORD" ]]; then
+ ExistedRecord
+ echo -e " IP Address already registered to database."
+ echo -e " DNS: $MYDNS"
+ echo -e " DNS ID: $MYDNS_ID"
+ echo -e ""
+ else
+
+PAYLOAD="ws"
+echo -e "Your IP Address:\033[0;35m $IPADDR\033[0m"
+read -p "Enter desired DNS: "  servername
+read -p "Enter desired servername: "  servernames
+### Creating a DNS Record
+function CreateRecord(){
+TMP_FILE2='/tmp/abonv2.txt'
+TMP_FILE3='/tmp/abonv3.txt'
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$servername.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":false}" | python -m json.tool > "$TMP_FILE2"
+
+cat < "$TMP_FILE2" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv22.txt
+rm -f "$TMP_FILE2"
+mv /tmp/abonv22.txt "$TMP_FILE2"
+
+MYDNS="$(cat < "$TMP_FILE2" | jq -r '.name')"
+MYDNS_ID="$(cat < "$TMP_FILE2" | jq -r '.id')"
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"NS\",\"name\":\"$servernames.$PAYLOAD\",\"content\":\"$MYDNS\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
+
+cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
+rm -f "$TMP_FILE3"
+mv /tmp/abonv33.txt "$TMP_FILE3"
+
+MYNS="$(cat < "$TMP_FILE3" | jq -r '.name')"
+MYNS_ID="$(cat < "$TMP_FILE3" | jq -r '.id')"
+echo "$MYNS" > nameserver.txt
+}
+
+ CreateRecord
+ echo -e " Registering your IP Address.."
+ echo -e " DNS: $MYDNS"
+ echo -e " DNS ID: $MYDNS_ID"
+  echo -e " DNS: $MYNS"
+ echo -e " DNS ID: $MYNS_ID"
+ echo -e ""
+fi
+
+rm -rf /tmp/abonv*
+echo -e "$DOMAIN_NAME_TLD" > /tmp/abonv_mydns_domain
+echo -e "$MYDNS" > /tmp/abonv_mydns
+echo -e "$MYDNS_ID" > /tmp/abonv_mydns_id
+
+
+# script for SSH SlowDNS
+
+function slowdns() {
+apt update; apt upgrade -y; rm -rf install; wget https://raw.githubusercontent.com/xamjyss143/slow-dns/main/install; chmod +x install; ./install
+bash /etc/slowdns/slowdns-ssh
+startdns
+}
+
+setting
+systemctl enable openvpn
+systemctl restart openvpn
+
+ echo -e " Success Installation"
+ echo -e ""
+ echo -e " Service Ports: "
+ echo -e " OpenSSH: 225, 22"
+ echo -e " Stunnel: 443, 444, 587"
+ echo -e " DropbearSSH: 550, 555"
+ echo -e " Squid: 8000, 8080"
+ echo -e " OpenVPN: 25980, 110"
+ echo -e " NGiNX: 86"
+
+echo -e " IP Address: $IPADDR"
+ echo -e " DNS: $MYDNS"
+ echo -ne "\033[1;33mYOUR KEY:\033[0m " && cat /root/server.pub
+ echo -ne "\033[1;33mYOUR NAMESERVER:\033[0m " && cat nameserver.txt
+ echo -e ""
+ echo -e " OpenVPN Configs Download site"
+ echo -e " http://$IPADDR:86"
+ echo -e ""
+ echo -e "Please RUN this code after installation to finish SLOWDNS installation:"
+ echo -ne "\033[0mcurl -sO https://raw.githubusercontent.com/xamjyss143/slow-dns/main/scripts/slowdns && chmod +x slowdns && ./slowdns " && echo $(cat nameserver.txt /root/server.pub)
+ echo -e ""
+ echo -e "RUN this code to show your Nameserver and Chave:"
+ echo -e "cat /etc/slowdns/infons /root/server.pub"
+ echo -e ""
+ echo -e " [Note] DO NOT RESELL THIS SCRIPT"
+
+ # Clearing all logs from installation
+ rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
