@@ -58,6 +58,10 @@ cat <<'mySiteOvpns' > /var/www/openvpn/index.html
 
 </ul></div></div></div></div></body></html>
 mySiteOvpns
+
+ OvpnDownload_Port = '86'
+ IPADDR="$(curl -4skL http://ipinfo.io/ip)"
+ 
  sed -i "s|NGINXPORT|$OvpnDownload_Port|g" /var/www/openvpn/index.html
  sed -i "s|IP-ADDRESS|$IPADDR|g" /var/www/openvpn/index.html
  
