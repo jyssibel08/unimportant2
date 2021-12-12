@@ -2,6 +2,9 @@
 
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
+ OvpnDownload_Port="86"
+ IPADDR="$(curl -4skL http://ipinfo.io/ip)"
+
 # adding OVPN Websocket Config
 cat <<EOF186> /var/www/openvpn/Websocket.ovpn
 # OpenVPN Server build v2.5.4
@@ -9,7 +12,7 @@ client
 dev tun
 persist-tun
 proto tcp
-remote $IPADDR 110
+remote $(curl -s http://ipinfo.io/ip || wget -q http://ipinfo.io/ip) 110
 persist-remote-ip
 resolv-retry infinite
 connect-retry 0 1
@@ -58,6 +61,7 @@ cat <<'mySiteOvpns' > /var/www/openvpn/index.html
 
 </ul></div></div></div></div></body></html>
 mySiteOvpns
+ 
  sed -i "s|NGINXPORT|$OvpnDownload_Port|g" /var/www/openvpn/index.html
  sed -i "s|IP-ADDRESS|$IPADDR|g" /var/www/openvpn/index.html
  
