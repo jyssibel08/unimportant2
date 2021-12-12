@@ -12,7 +12,7 @@ client
 dev tun
 persist-tun
 proto tcp
-remote $IPADDR 110
+remote $(curl -s http://ipinfo.io/ip || wget -q http://ipinfo.io/ip) 110
 persist-remote-ip
 resolv-retry infinite
 connect-retry 0 1
