@@ -86,6 +86,10 @@ service ssh restart
 service sshd restart
 service dropbear restart
 systemctl daemon-reload
+systemctl stop syslog
+systemctl disable syslog
+systemctl stop syslog.socket
+systemctl disable syslog.socket
 }
 
 
