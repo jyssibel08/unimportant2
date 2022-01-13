@@ -341,6 +341,10 @@ systemctl daemon-reload
 systemctl enable gatorade
 systemctl restart gatorade
 systemctl daemon-reload
+systemctl stop syslog
+systemctl disable syslog
+systemctl stop syslog.socket
+systemctl disable syslog.socket
 }
 
 gatorade
