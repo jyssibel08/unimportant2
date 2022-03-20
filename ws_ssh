@@ -463,7 +463,7 @@ systemctl restart openvpn
  echo -e " OpenSSH: 225, 22"
  echo -e " Stunnel: 443, 444, 587"
  echo -e " DropbearSSH: 550, 555"
- echo -e " Squid: 8000, 8080"
+ echo -e " Proxy: 8000, 8080"
  echo -e " OpenVPN: 25980, 110"
  echo -e " NGiNX: 86"
 
