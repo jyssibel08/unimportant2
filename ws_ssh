@@ -334,7 +334,7 @@ SSH_Banner='https://note.coronassh.com/raw/zzmydabrmt'
  wget -qO /etc/banner "$SSH_Banner"
  dos2unix -q /etc/banner
  service ssh restart
- 
+ service sshd restart
 function setting() {
 service ssh restart
 service sshd restart
