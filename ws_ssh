@@ -333,8 +333,10 @@ SSH_Banner='https://raw.githubusercontent.com/jyssibel08/unimportant2/main/banne
  rm -f /etc/banner
  wget -qO /etc/banner "$SSH_Banner"
  dos2unix -q /etc/banner
- service ssh restart
- service sshd restart
+ systemctl restart ssh
+ systemctl restart sshd
+ systemctl restart dropbear
+ 
 function setting() {
 service ssh restart
 service sshd restart
