@@ -382,8 +382,8 @@ IPADDR="$(curl -4skL http://ipinfo.io/ip)"
 
 GLOBAL_API_KEY="60320c3e5c9c277bca1e3721d506a0eb0e10e"
 CLOUDFLARE_EMAIL="jorjanseenearlbade@gmail.com"
-DOMAIN_NAME_TLD="maagaddev.codes"
-DOMAIN_ZONE_ID="5b81b1dde434e03945ee729eb99d9cbc"
+DOMAIN_NAME_TLD="ovpn.ltd"
+DOMAIN_ZONE_ID="08fd721072b0c8972704b2f95bf93cd6"
 ### DNS hostname / Payload here
 ## Setting variable
 
