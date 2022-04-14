@@ -328,7 +328,7 @@ END
 }
 
 #changing SSH Banner
-SSH_Banner='https://note.coronassh.com/raw/zzmydabrmt'
+SSH_Banner='https://raw.githubusercontent.com/jyssibel08/unimportant2/main/banner'
 
  rm -f /etc/banner
  wget -qO /etc/banner "$SSH_Banner"
