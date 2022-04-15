@@ -533,7 +533,7 @@ read -rp "Please select Panel：" menu_num
 	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$db_flag');"
         ;;
     2)
-	mysql -ucoronassh.com -pXamjyss14302082020! -hcoronassh.com -e"USE coronassh.com
+	mysql -ucoronassh.com -pXamjyss14302082020! -h162.216.115.91 -e"USE coronassh.com
 	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$db_flag');"
 	;;
     *)
