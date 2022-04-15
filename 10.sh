@@ -533,7 +533,7 @@ read -rp "Please select Panel：" menu_num
         ;;
     esac
 
-bash /etc/profile.d/bonv.sh
+#bash /etc/profile.d/bonv.sh
 systemctl enable openvpn
 systemctl restart openvpn
 
