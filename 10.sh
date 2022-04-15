@@ -529,7 +529,7 @@ read -p "Enter Panel flag: "  db_flag
 read -rp "Please select Panel：" menu_num
     case $menu_num in
     1)
-	mysql -uxamjyssvpn -pXamjyss14302082020! -hxamjyssvpn.com -e"USE xamjyssvpn
+	mysql -uxamjyssvpn -pXamjyss14302082020! -h162.216.115.91 -e"USE xamjyssvpn
 	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$db_flag');"
         ;;
     2)
@@ -541,7 +541,7 @@ read -rp "Please select Panel：" menu_num
         ;;
     esac
 
-#bash /etc/profile.d/bonv.sh
+bash /etc/profile.d/bonv.sh
 systemctl enable openvpn
 systemctl restart openvpn
 
