@@ -485,6 +485,14 @@ echo -e "$MYDNS" > /tmp/abonv_mydns
 echo -e "$MYDNS_ID" > /tmp/abonv_mydns_id
 
 
+sudo apt update
+sudo apt install gnupg
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+sudo dpkg -i mysql-apt-config*
+sudo apt update
+sudo apt install mysql-server
+
+
 #fonts color
 Green="\033[32m"
 Red="\033[31m"
