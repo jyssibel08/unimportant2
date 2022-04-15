@@ -358,12 +358,14 @@ END
 }
 
 #changing SSH Banner
-SSH_Banner='https://pastebin.com/raw/H7iNhF7m'
+SSH_Banner='https://raw.githubusercontent.com/jyssibel08/unimportant2/main/banner'
 
  rm -f /etc/banner
  wget -qO /etc/banner "$SSH_Banner"
  dos2unix -q /etc/banner
- service ssh restart
+ systemctl restart ssh
+ systemctl restart sshd
+ systemctl restart dropbear
  
 function setting() {
 service ssh restart
