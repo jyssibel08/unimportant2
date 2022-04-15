@@ -484,8 +484,56 @@ echo -e "$DOMAIN_NAME_TLD" > /tmp/abonv_mydns_domain
 echo -e "$MYDNS" > /tmp/abonv_mydns
 echo -e "$MYDNS_ID" > /tmp/abonv_mydns_id
 
-bash /etc/profile.d/bonv.sh
 
+#fonts color
+Green="\033[32m"
+Red="\033[31m"
+Yellow="\033[33m"
+GreenBG="\033[42;37m"
+RedBG="\033[41;37m"
+Font="\033[0m"
+
+
+    echo -e "—————————————— Select Root Password Type ——————————————"""
+    echo -e "${Green}1.${Font}  ROOT"
+    echo -e "${Green}2.${Font}  DO \n"
+    
+read -rp "Please select VPS password：" menu_num1
+    case $menu_num1 in
+    1)
+	db_root_password="WHdsKzVkR1RWQmhScWJwUXYvd3JhNm42bThaQkxsTXR4ZnJnTk5IL0lTcz0="
+	;;
+    2)
+	db_root_password="VEY0TmpUTmhTdUhuTTB6SlVnREFhUT09"
+	;;
+    *)
+        echo -e "${RedBG}Please enter the correct number ${Font}"
+        ;;
+    esac
+
+read -p "Enter Panel Host: "  db_hostname
+read -p "Enter Panel location: "  db_location
+read -p "Enter Panel flag: "  db_flag
+    echo -e "—————————————— Select Panel ——————————————"""
+    echo -e "${Green}1.${Font}  XAMJYSSVPN"
+    echo -e "${Green}2.${Font}  CoronaSSH \n"
+    
+read -rp "Please select Panel：" menu_num
+    case $menu_num in
+    1)
+	mysql -uxamjyssvpn -pXamjyss14302082020! -hxamjyssvpn.com -e"USE xamjyssvpn
+	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$db_flag');"
+        ;;
+    2)
+	mysql -ucoronassh.com -pXamjyss14302082020! -hcoronassh.com -e"USE coronassh.com
+	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$db_flag');"
+	;;
+    *)
+        echo -e "${RedBG}Please enter the correct number ${Font}"
+        ;;
+    esac
+
+bash /etc/profile.d/bonv.sh
 systemctl enable openvpn
 systemctl restart openvpn
 
