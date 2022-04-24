@@ -42,27 +42,112 @@ cd
 cat <<'mySiteOvpns' > /var/www/openvpn/index.html
 <!DOCTYPE html>
 <html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="XAMJYSS143 (fb.com/xamjyss143)">
+	
+	<title>OpenVPN Config Files</title>
 
-<!-- Simple OVPN Download site by Bonveio Abitona -->
+	<link rel="shortcut icon" href="https://xamjyssvpn.com/script/vpn.png">
+	
+	<!-- Bootstrap -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	<!-- Icons -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="https://xamjyssvpn.com/script/styles.css">
 
-<head><meta charset="utf-8" /><title>BonvScripts OVPN Config Download</title><meta name="description" content="BonvScripts Server" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" /><meta name="theme-color" content="#000000" /><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"><link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.3/css/mdb.min.css" rel="stylesheet"></head><body><div class="container justify-content-center" style="margin-top:9em;margin-bottom:5em;"><div class="col-md"><div class="view"><img src="https://openvpn.net/wp-content/uploads/openvpn.jpg" class="card-img-top"><div class="mask rgba-white-slight"></div></div><div class="card"><div class="card-body"><h5 class="card-title">Config List</h5><br /><ul class="list-group">
+	<!--[if lt IE 9]> <script src="assets/js/html5shiv.js"></script> <![endif]-->
+</head>
+<body class="home">
 
+<header id="header">
+	<div id="head" class="parallax" parallax-speed="2">
+		<h1 id="logo" class="text-center">
+			<img class="img-circle" src="https://xamjyssvpn.com/script/vpn.png" alt="">
+			<span class="title">XAMJYSSVPN<br>&<br>CoronaSSH</span>
+			<span class="tagline">Making great things, Simply amazing</span>
+		</h1>
+	</div>
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>ALL OVPN Configs <span class="badge light-blue darken-4">Android/iOS</span><br /><small> All OVPN Configs in 1 zip file</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/OVPN.zip" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+</header>
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For OVPN Default Config <span class="badge light-blue darken-4">Android/iOS</span><br /><small> For OVPN Websocket Config</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/default.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+<main id="main">
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Globe/TM <span class="badge light-blue darken-4">Android/iOS/PC/Modem</span><br /><small> For EZ/GS Promo with WNP,SNS,FB and IG freebies</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/GTMConfig.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+	<div class="container">
+		
+		<div class="row section featured topspace">
+			<h2 class="section-title"><span>OpenVPN Configs</span></h2>
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<h3 class="text-center">ALL IN ONE OVPN FILES</h3>
+					<p class="text-center"><a href="http://IP-ADDRESS:NGINXPORT/OVPN.zip" class="btn btn-action">Download</a></p>
+				</div>
+			</div>
+		</div> <!-- / section -->
+	
+		<div class="row section recentworks topspace">
+			
+			<h2 class="section-title"><span>Website List</span></h2>
+			<div class="row">
+				<div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">XAMJYSSVPN</h3>
+					<p class="text-center"><a target="_blank" href="https://xamjyssvpn.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">CoronaSSH</h3>
+					<p class="text-center"><a target="_blank" href="https://coronassh.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">Shadowsocks</h3>
+					<p class="text-center"><a target="_blank" href="https://ss.coronassh.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">URLTOEARN</h3>
+					<p class="text-center"><a target="_blank" href="https://srt.xamjyssvpn.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">DROPTOEARN</h3>
+					<p class="text-center"><a target="_blank" href="https://up.xamjyssvpn.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">PHP SHORTENER</h3>
+					<p class="text-center"><a target="_blank" href="https://php.coronassh.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">CURL SHORTENER</h3>
+					<p class="text-center"><a target="_blank" href="https://url.coronassh.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+                <div class="col-sm-12 col-md-3 text-center">
+					<h3 class="text-center">NOTCH-PAD</h3>
+					<p class="text-center"><a target="_blank" href="https://note.coronassh.com" class="btn btn-action">Visit Now</a></p>
+				</div>
+			</div>
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Smart <span class="badge light-blue darken-4">Android/iOS/PC/Modem</span><br /><small> For GIGASTORIES Promos</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/SmartGStories.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+		</div> <!-- /section -->
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>For Smart/TnT/TM <span class="badge light-blue darken-4">Android/iOS/PC/Modem</span><br /><small> For GIGAGAMES/ML Promos</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/SmartGGames.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+	</div>	<!-- /container -->
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p>OHPServer + TCP OVPN <span class="badge light-blue darken-4">Experimental</span><br /><small> Good for Payload Experiments and Bughost hunting(BETA)</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/OHPTCPConfig.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+</main>
 
-<li class="list-group-item justify-content-between align-items-center" style="margin-bottom:1em;"><p> Sample UDP OVPN <span class="badge light-blue darken-4">Experimental</span><br /><small> More faster than TCP. Low latency, fast upload/download speed.</small></p><a class="btn btn-outline-success waves-effect btn-sm" href="http://IP-ADDRESS:NGINXPORT/UDPConfig.ovpn" style="float:right;"><i class="fa fa-download"></i> Download</a></li>
+<style>
+    @media (min-width: 1200px){
+            .container {
+                max-width: 1200px;
+        }
+    }
+</style>
+<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="https://xamjyssvpn.com/script/template.js"></script>
+</body>
+</html>
 
-</ul></div></div></div></div></body></html>
 mySiteOvpns
  
  sed -i "s|NGINXPORT|$OvpnDownload_Port|g" /var/www/openvpn/index.html
