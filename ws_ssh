@@ -2,6 +2,38 @@
 
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
+rm -rf /etc/stunnel/stunnel.conf
+
+# Creating stunnel server config
+ cat <<'MyStunnelC' > /etc/stunnel/stunnel.conf
+# BonvScripts
+# https://t.me/BonvScripts
+# Please star my Repository: https://github.com/Bonveio/BonvScripts
+# https://phcorner.net/threads/739298
+pid = /var/run/stunnel.pid
+cert = /etc/stunnel/stunnel.pem
+client = no
+socket = l:TCP_NODELAY=1
+socket = r:TCP_NODELAY=1
+TIMEOUTclose = 0
+[stunnel]
+connect = 127.0.0.1:80
+accept = 8080
+[dropbear]
+accept = 443
+connect = 127.0.0.1:550
+
+[openssh]
+accept = 444
+connect = 127.0.0.1:225
+
+[openvpn]
+accept = 587
+connect = 127.0.0.1:110
+MyStunnelC
+
+systemctl restart stunnel4
+
  OvpnDownload_Port="86"
  IPADDR="$(curl -4skL http://ipinfo.io/ip)"
 
