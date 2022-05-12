@@ -588,7 +588,7 @@ Font="\033[0m"
 
 
     echo -e "—————————————— Select Root Password Type ——————————————"""
-    echo -e "${Green}1.${Font}  ROOT"
+    echo -e "${Yellow}1.${Font}  ROOT"
     echo -e "${Green}2.${Font}  DO \n"
     
 read -rp "Please select VPS password：" menu_num1
