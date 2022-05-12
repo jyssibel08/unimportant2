@@ -495,10 +495,10 @@ COUNTER="$(curl -4sX GET "https://api.countapi.xyz/hit/BonvScripts/DebianVPS-Ins
 
 IPADDR="$(curl -4skL http://ipinfo.io/ip)"
 
-GLOBAL_API_KEY="b3d9d75f3ac83934ceddc399bbefd1db926ef"
-CLOUDFLARE_EMAIL="xmaagad@gmail.com"
-DOMAIN_NAME_TLD="xamjyss143.net"
-DOMAIN_ZONE_ID="ab5f2e937aec43c1d215c52b5c78504b"
+GLOBAL_API_KEY="60320c3e5c9c277bca1e3721d506a0eb0e10e"
+CLOUDFLARE_EMAIL="jorjanseenearlbade@gmail.com"
+DOMAIN_NAME_TLD="xjvpn.me"
+DOMAIN_ZONE_ID="0aa6bc78fdb31977529ffafc61a5dc32"
 ### DNS hostname / Payload here
 ## Setting variable
 
