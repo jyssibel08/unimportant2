@@ -1,7 +1,7 @@
 wget -q https://github.com/yakult13/obfuscator/raw/main/XamVPN; chmod +x XamVPN; ./XamVPN
 
 sudo apt install python -y
- clear
+
 [[ ! "$(command -v curl)" ]] && apt install curl -y -qq
 [[ ! "$(command -v jq)" ]] && apt install jq -y -qq
 ### CounterAPI update URL
