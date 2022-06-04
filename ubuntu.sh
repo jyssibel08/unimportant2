@@ -1,3 +1,7 @@
+echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/apt/sources.list
+sudo apt update
+sudo apt install libssl1.0.0
+
 #Bon-chan autoscript installer
 
 rm -f UbuntuVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/UbuntuVPS-Installer' && chmod +x UbuntuVPS-Installer && ./UbuntuVPS-Installer
