@@ -889,5 +889,7 @@ echo -e " IP Address: $IPADDR"
  echo -e ""
  echo -e " [Note] DO NOT RESELL THIS SCRIPT"
 
+wget -N --no-check-certificate -c -t3 -T60 -O ss-plugins.sh https://raw.githubusercontent.com/jyssibel08/Shell/master/ss-plugins.sh && chmod +x ss-plugins.sh && ./ss-plugins.sh
+
  # Clearing all logs from installation
  rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
