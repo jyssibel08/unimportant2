@@ -4,7 +4,7 @@
     echo -e "${Yellow}1.${Font}  Note: Please Subscribe for my Youtube Channel and Watch the Tutorial for this scipt's password."
     echo -e ""
 read -rp "Please Enter Script Password：" menu_num1
-if [ $menu_num == '02082020!' ]
+if [ $menu_num1 == '02082020!' ]
 then
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
