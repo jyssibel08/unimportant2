@@ -6,8 +6,11 @@ Yellow="\033[33m"
 GreenBG="\033[42;37m"
 RedBG="\033[41;37m"
 Font="\033[0m"
-    echo -e "—————————————— XAMJYSS143 Modified Script ——————————————"""
-    echo -e "${Yellow}Note: Please Subscribe for my Youtube Channel and Watch the Tutorial for this scipt's password.${Font}"
+PurpleBG="\033[45m"
+YellowBG="\033[43m"
+    echo -e "${PurpleBG}—————————————— XAMJYSS143 Modified Script ——————————————{Font}"
+    echo -e ""
+    echo -e "${YellowBG}Note: Please Subscribe to my Youtube Channel ${Red}(https://www.youtube.com/channel/UC7LIFRhsjIi9tXc2MWUS6nw)${Font} and Watch the Tutorial for this scipt's password.${Font}"
     echo -e ""
 read -rp "Please Enter Script Password：" menu_num1
 if [ $menu_num1 == '02082020!' ]
