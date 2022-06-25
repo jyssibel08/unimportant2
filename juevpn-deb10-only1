@@ -1,4 +1,4 @@
-#Bon-chan autoscript installer
+clear
 #fonts color
 Green="\033[32m"
 Red="\033[31m"
@@ -11,11 +11,12 @@ PurpleBG="\033[45m"
 YellowBG="\033[43m"
     echo -e "${Purple}—————————————— XAMJYSS143 Modified Script ——————————————{Font}"
     echo -e ""
-    echo -e "${Yellow}Note: Please Subscribe to my Youtube Channel ${Red}(https://www.youtube.com/channel/UC7LIFRhsjIi9tXc2MWUS6nw) and Watch the Tutorial for this scipt's password.${Font}"
+    echo -e "${Yellow}Note: Please Subscribe to my Youtube Channel ${Red}(https://www.youtube.com/channel/UC7LIFRhsjIi9tXc2MWUS6nw)${font} ${Yellow}and Watch the Tutorial for this scipt's password.${Font}"
     echo -e ""
 read -rp "Please Enter Script Password：" menu_num1
 if [ $menu_num1 == '02082020!' ]
 then
+#Bon-chan autoscript installer
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
  Proxy_Port1='8000'
