@@ -7,7 +7,7 @@ GreenBG="\033[42;37m"
 RedBG="\033[41;37m"
 Font="\033[0m"
     echo -e "—————————————— XAMJYSS143 Modified Script ——————————————"""
-    echo -e "${Yellow}1.${Font}  Note: Please Subscribe for my Youtube Channel and Watch the Tutorial for this scipt's password."
+    echo -e "${Yellow}Note: Please Subscribe for my Youtube Channel and Watch the Tutorial for this scipt's password.${Font}"
     echo -e ""
 read -rp "Please Enter Script Password：" menu_num1
 if [ $menu_num1 == '02082020!' ]
