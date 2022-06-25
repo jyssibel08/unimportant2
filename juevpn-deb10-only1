@@ -1,5 +1,11 @@
 #Bon-chan autoscript installer
 
+    echo -e "—————————————— XAMJYSS143 Modified Script ——————————————"""
+    echo -e "${Yellow}1.${Font}  Note: Please Subscribe for my Youtube Channel and Watch the Tutorial for this scipt's password.
+    echo -e ""
+read -rp "Please Enter Script Password：" menu_num1
+if [ $menu_num == '02082020!' ]
+then
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
  Proxy_Port1='8000'
@@ -870,3 +876,7 @@ systemctl restart openvpn
 
  # Clearing all logs from installation
  rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
+
+else
+     echo -e "${RedBG}Wrong Password! Please watch my tutorial for this scipt's password and subscribe to my Youtube Channel. ${Font}"
+fi
