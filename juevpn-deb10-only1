@@ -18,7 +18,7 @@ read -rp "Please Enter Script Password：" menu_num1
 if [ $menu_num1 == '02082020!' ]
 then
 #Bon-chan autoscript installer
-rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
+rm -f DebianVPS* && curl -sLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' || wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
  Proxy_Port1='8000'
  Proxy_Port2='8080'
