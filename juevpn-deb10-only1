@@ -1,5 +1,11 @@
 #Bon-chan autoscript installer
-
+#fonts color
+Green="\033[32m"
+Red="\033[31m"
+Yellow="\033[33m"
+GreenBG="\033[42;37m"
+RedBG="\033[41;37m"
+Font="\033[0m"
     echo -e "—————————————— XAMJYSS143 Modified Script ——————————————"""
     echo -e "${Yellow}1.${Font}  Note: Please Subscribe for my Youtube Channel and Watch the Tutorial for this scipt's password."
     echo -e ""
