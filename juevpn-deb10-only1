@@ -858,7 +858,7 @@ systemctl restart openvpn
  echo -e " Webmin: 10000"
  echo -e " BadVPN-udpgw: 7300"
  echo -e " NGiNX: 86"
- 
+ echo -e ""
  echo -e " NEW! OHPServer builds"
  echo -e " (Good for Payload bugging and any related HTTP Experiments)"
  echo -e ""
@@ -866,16 +866,14 @@ systemctl restart openvpn
  echo -e " OHP+OpenSSH: 8086"
  echo -e " OHP+OpenVPN: 8087"
  echo -e " OHP+OpenVPN Elliptic Curve: 8088"
- 
- 
+ echo -e ""
  echo -e " Websocket Service Ports: "
  echo -e ""
  echo -e " OpenSSH WS: 80"
  echo -e " OpenSSL WS: 443"
  echo -e " OpenVPN WS: 81"
  echo -e " OpenSSL WS: 587"
- 
- 
+ echo -e ""
  echo -e " IP Address: $IPADDR"
  echo -e " DNS: $MYDNS"
  echo -e ""
