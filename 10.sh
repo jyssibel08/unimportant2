@@ -10,7 +10,7 @@ while true; do
  if [[ -e /var/lib/dpkg/lock ]]; then
    continue
  else
-   sleep 5
+   sleep 1
    break
  fi
 done;
