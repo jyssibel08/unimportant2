@@ -9,7 +9,6 @@ echo 'APT Process on background, please wait..'
 while true; do
  if [[ -e /var/lib/dpkg/lock ]]; then
    continue
-   echo 'APT Process on background, please wait..'
  else
    sleep 1
    break
