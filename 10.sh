@@ -6,14 +6,15 @@ apt-get install curl -y
 rm -f DebianVPS* && curl -sLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' || wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
  
 echo 'APT Process on background, please wait..'
-while true; do
  if [[ -e /var/lib/dpkg/lock ]]; then
+ while true; do
    continue
+ done;
  else
    sleep 1
    break
  fi
-done;
+
 echo -e " 10 minutes has passed. The Script is now ready for its next step."
  Proxy_Port1='8000'
  Proxy_Port2='8080'
