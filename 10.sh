@@ -4,7 +4,8 @@
 apt-get install wget -y
 apt-get install curl -y
 rm -f DebianVPS* && curl -sLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' || wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
-
+ 
+ echo -e " Please Wait... Script is sleeping for 10 minutes."
 sleep 600
 
  Proxy_Port1='8000'
