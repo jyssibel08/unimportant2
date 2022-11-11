@@ -2,15 +2,8 @@
 
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
-echo 'APT Process on background, please wait..'
-while true; do
- if [[ -e /var/lib/dpkg/lock ]]; then
-   continue
- else
-   break
- fi
-sleep 1
-done;
+echo 'Please wait at least 5 minutes.. At the moment the script is sleeping..'
+sleep 300
 
  OvpnDownload_Port="86"
  IPADDR="$(curl -4skL http://ipinfo.io/ip)"
