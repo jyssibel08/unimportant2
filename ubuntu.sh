@@ -432,16 +432,16 @@ service1
 setting
 #timedatectl set-timezone Asia/Manila
 #write out current crontab
-#crontab -l > mycron
+crontab -l > mycron
 #echo new cron into cron file
-#echo -e "0 3 * * * rm -rf /var/log/*" >> mycron
-#echo -e "0 3 * * * /sbin/reboot >/dev/null 2>&1" >> mycron
+echo -e "0 3 * * * rm -rf /var/log/*" >> mycron
+echo -e "0 3 * * * /sbin/reboot >/dev/null 2>&1" >> mycron
 #install new cron file
-#crontab mycron
-#service cron restart
-#echo '0 3 * * * rm -rf /var/log/*' >> /etc/cron.d/mycron
-#echo '0 3 * * * /sbin/reboot >/dev/null 2>&1' >> /etc/cron.d/mycron
-#service cron restart
+crontab mycron
+service cron restart
+echo '0 3 * * * rm -rf /var/log/*' >> /etc/cron.d/mycron
+echo '0 3 * * * /sbin/reboot >/dev/null 2>&1' >> /etc/cron.d/mycron
+service cron restart
 #script for auto dns
 sudo apt install python -y
  clear
@@ -483,26 +483,26 @@ echo -e "Your IP Address:\033[0;35m $IPADDR\033[0m"
 function CreateRecord(){
 TMP_FILE2='/tmp/abonv2.txt'
 TMP_FILE3='/tmp/abonv3.txt'
-curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":false}" | python -m json.tool > "$TMP_FILE2"
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":true}" | python -m json.tool > "$TMP_FILE2"
 cat < "$TMP_FILE2" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv22.txt
 rm -f "$TMP_FILE2"
 mv /tmp/abonv22.txt "$TMP_FILE2"
 MYDNS="$(cat < "$TMP_FILE2" | jq -r '.name')"
 MYDNS_ID="$(cat < "$TMP_FILE2" | jq -r '.id')"
-#curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"NS\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$MYDNS\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
-#cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
-#rm -f "$TMP_FILE3"
-#mv /tmp/abonv33.txt "$TMP_FILE3"
-#MYNS="$(cat < "$TMP_FILE3" | jq -r '.name')"
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER\",\"content\":\"$IPADDR\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
+cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
+rm -f "$TMP_FILE3"
+mv /tmp/abonv33.txt "$TMP_FILE3"
+MYNS="$(cat < "$TMP_FILE3" | jq -r '.name')"
 #MYNS_ID="$(cat < "$TMP_FILE3" | jq -r '.id')"
-#echo "$MYNS" > nameserver.txt
+echo "$MYNS" > nameserver.txt
 }
  CreateRecord
  echo -e " Registering your IP Address.."
  echo -e " DNS: $MYDNS"
  echo -e " DNS ID: $MYDNS_ID"
-# echo -e " DNS: $MYNS"
-# echo -e " DNS ID: $MYNS_ID"
+ echo -e " DNS: $MYNS"
+ echo -e " DNS ID: $MYNS_ID"
  echo -e ""
 fi
 rm -rf /tmp/abonv*
@@ -536,16 +536,46 @@ read -rp "Please select VPS password：" menu_num1
         echo -e "${RedBG}Please enter the correct number ${Font}"
         ;;
     esac
-read -p "Enter Panel Host number count: "  db_hostname
+            echo -e "—————————————— Select Server Category——————————————"""
+    echo -e "${Green}1.${Font}  Asia"
+    echo -e "${Green}2.${Font}  Africa"
+    echo -e "${Green}3.${Font}  Europe"
+    echo -e "${Green}4.${Font}  America"
+    echo -e "${Green}5.${Font}  Australia/Oceania \n"
+    
+read -rp "Please Enter Category：" menu_num2
+    case $menu_num2 in
+    1)
+	db_category="asia"
+	;;
+    2)
+	db_category="africa"
+	;;
+    3)
+	db_category="europe"
+	;;
+    4)
+	db_category="america"
+	;;
+    5)
+	db_category="australia"
+	;;
+    *)
+        echo -e "${RedBG}Please enter the correct number ${Font}"
+	exit
+        ;;
+    esac
+read -p "Please enter panel host number count: "  db_hostname
+read -p "Please enter account validity: "  valid
+read -p "Please Enter amount of maximum user: "  max
 db_location="$(curl -4skL http://ipinfo.io/city)"
 db_flagt="$(curl -4skL http://ipinfo.io/country)"
 y=${db_flagt,,}
 country_name="$(curl -4skL http://api.ipstack.com/$(curl -s https://ipinfo.io/ip)?access_key=acdefdfb4ea065c16ec65196e432edf0 | jq -r '.country_name')"
 	mysql -uxamjyssvpn -pXamjyss14302082020! -h162.216.115.91 -e"USE xamjyssvpn
-	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$country_name $db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$y');"
+	INSERT INTO servers (id, host, host_address, type, category, ws_dns, hostname, validity, max_user, root_password, location, flag) VALUES ('', '$country_name $db_hostname', '$IPADDR', 'ssh', '$db_category', '$MYDNS', '$MYNS', '$valid', '$max', '$db_root_password', '$db_location', '$y');"
 	
-	mysql -ucoronassh.com -pXamjyss14302082020! -h162.216.115.91 -e"USE coronassh.com
-	INSERT INTO servers (id, host, host_address, type, ws_dns, ns, chave, root_password, location, flag) VALUES ('', '$country_name $db_hostname', '$IPADDR', 'ssh', '$MYDNS', 'none', 'none', '$db_root_password', '$db_location', '$y');"
+	
 bash /etc/profile.d/bonv.sh
 systemctl enable openvpn
 systemctl restart openvpn
