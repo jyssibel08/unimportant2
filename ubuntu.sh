@@ -572,7 +572,7 @@ db_location="$(curl -4skL http://ipinfo.io/city)"
 db_flagt="$(curl -4skL http://ipinfo.io/country)"
 y=${db_flagt,,}
 country_name="$(curl -4skL http://api.ipstack.com/$(curl -s https://ipinfo.io/ip)?access_key=acdefdfb4ea065c16ec65196e432edf0 | jq -r '.country_name')"
-	mysql -uxamjyssvpn -pXamjyss14302082020! -h162.216.115.91 -e"USE xamjyssvpn
+	mysql -uxamjyssvpn -pXamjyss14302082020! -h162.216.115.91 -e"USE new
 	INSERT INTO servers (id, host, host_address, type, category, ws_dns, hostname, validity, max_user, root_password, location, flag) VALUES ('', '$country_name $db_hostname', '$IPADDR', 'ssh', '$db_category', '$MYDNS', '$MYNS', '$valid', '$max', '$db_root_password', '$db_location', '$y');"
 	
 	
