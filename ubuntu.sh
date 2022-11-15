@@ -7,7 +7,7 @@ sudo apt install libssl1.0.0
 rm -f UbuntuVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/UbuntuVPS-Installer' && chmod +x UbuntuVPS-Installer && ./UbuntuVPS-Installer
 
 echo -e 'PLEASE WAIT... The Script is sleeping for at least 5 minutes to make sure there are no installation running in background before we proceed.'
-sleep 100
+sleep 200
 echo -e '5 minutes has passed, now we are ready to proceed.'
 
  OvpnDownload_Port="86"
