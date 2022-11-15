@@ -475,7 +475,7 @@ if [[ "$IPADDR" == "$CHECK_IP_RECORD" ]]; then
  echo -e " DNS ID: $MYDNS_ID"
  echo -e ""
  else
-PAYLOAD="ws_ssh"
+PAYLOAD="tls"
 echo -e "Your IP Address:\033[0;35m $IPADDR\033[0m"
 #read -p "Enter desired DNS: "  servername
 #read -p "Enter desired servername: "  servernames
