@@ -494,7 +494,7 @@ cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locke
 rm -f "$TMP_FILE3"
 mv /tmp/abonv33.txt "$TMP_FILE3"
 MYNS="$(cat < "$TMP_FILE3" | jq -r '.name')"
-#MYNS_ID="$(cat < "$TMP_FILE3" | jq -r '.id')"
+MYNS_ID="$(cat < "$TMP_FILE3" | jq -r '.id')"
 echo "$MYNS" > nameserver.txt
 }
  CreateRecord
