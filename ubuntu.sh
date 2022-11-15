@@ -483,13 +483,13 @@ echo -e "Your IP Address:\033[0;35m $IPADDR\033[0m"
 function CreateRecord(){
 TMP_FILE2='/tmp/abonv2.txt'
 TMP_FILE3='/tmp/abonv3.txt'
-curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":true}" | python -m json.tool > "$TMP_FILE2"
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":true}" | python -m json.tool > "$TMP_FILE2"
 cat < "$TMP_FILE2" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv22.txt
 rm -f "$TMP_FILE2"
 mv /tmp/abonv22.txt "$TMP_FILE2"
 MYDNS="$(cat < "$TMP_FILE2" | jq -r '.name')"
 MYDNS_ID="$(cat < "$TMP_FILE2" | jq -r '.id')"
-curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER\",\"content\":\"$IPADDR\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
 cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
 rm -f "$TMP_FILE3"
 mv /tmp/abonv33.txt "$TMP_FILE3"
