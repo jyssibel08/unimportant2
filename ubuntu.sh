@@ -475,7 +475,7 @@ if [[ "$IPADDR" == "$CHECK_IP_RECORD" ]]; then
  echo -e " DNS ID: $MYDNS_ID"
  echo -e ""
  else
-PAYLOAD="ws"
+db_flagt="$(curl -4skL http://ipinfo.io/country)"
 echo -e "Your IP Address:\033[0;35m $IPADDR\033[0m"
 #read -p "Enter desired DNS: "  servername
 #read -p "Enter desired servername: "  servernames
@@ -489,7 +489,7 @@ rm -f "$TMP_FILE2"
 mv /tmp/abonv22.txt "$TMP_FILE2"
 MYDNS="$(cat < "$TMP_FILE2" | jq -r '.name')"
 MYDNS_ID="$(cat < "$TMP_FILE2" | jq -r '.id')"
-curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$db_flagt\",\"content\":\"$IPADDR\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
 cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
 rm -f "$TMP_FILE3"
 mv /tmp/abonv33.txt "$TMP_FILE3"
@@ -569,7 +569,6 @@ read -p "Please enter panel host number count: "  db_hostname
 read -p "Please enter account validity: "  valid
 read -p "Please Enter amount of maximum user: "  max
 db_location="$(curl -4skL http://ipinfo.io/city)"
-db_flagt="$(curl -4skL http://ipinfo.io/country)"
 y=${db_flagt,,}
 country_name="$(curl -4skL http://api.ipstack.com/$(curl -s https://ipinfo.io/ip)?access_key=acdefdfb4ea065c16ec65196e432edf0 | jq -r '.country_name')"
 	mysql -unew -pXamjyss14302082020! -h162.216.115.91 -e"USE new
