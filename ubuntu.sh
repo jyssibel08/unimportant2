@@ -432,16 +432,25 @@ service1
 setting
 #timedatectl set-timezone Asia/Manila
 #write out current crontab
+
+crontab -r
 crontab -l > mycron
-#echo new cron into cron file
-echo -e "0 3 * * * rm -rf /var/log/*" >> mycron
-echo -e "0 3 * * * /sbin/reboot >/dev/null 2>&1" >> mycron
-#install new cron file
+echo -e "*/30 * * * * service yakult restart" >> mycron
 crontab mycron
 service cron restart
-echo '0 3 * * * rm -rf /var/log/*' >> /etc/cron.d/mycron
-echo '0 3 * * * /sbin/reboot >/dev/null 2>&1' >> /etc/cron.d/mycron
+echo '*/30 * * * * service yakult restart' >> /etc/cron.d/mycron
 service cron restart
+
+#crontab -l > mycron
+#echo new cron into cron file
+#echo -e "0 3 * * * rm -rf /var/log/*" >> mycron
+#echo -e "0 3 * * * /sbin/reboot >/dev/null 2>&1" >> mycron
+#install new cron file
+#crontab mycron
+#service cron restart
+#echo '0 3 * * * rm -rf /var/log/*' >> /etc/cron.d/mycron
+#echo '0 3 * * * /sbin/reboot >/dev/null 2>&1' >> /etc/cron.d/mycron
+#service cron restart
 #script for auto dns
 sudo apt install python -y
  clear
