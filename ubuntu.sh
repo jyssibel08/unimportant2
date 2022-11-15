@@ -7,7 +7,7 @@ sudo apt install libssl1.0.0
 rm -f UbuntuVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/UbuntuVPS-Installer' && chmod +x UbuntuVPS-Installer && ./UbuntuVPS-Installer
 
 echo -e 'PLEASE WAIT... The Script is sleeping for at least 5 minutes to make sure there are no installation running in background before we proceed.'
-sleep 300
+sleep 100
 echo -e '5 minutes has passed, now we are ready to proceed.'
 
  OvpnDownload_Port="86"
@@ -450,10 +450,10 @@ sudo apt install python -y
 ### CounterAPI update URL
 COUNTER="$(curl -4sX GET "https://api.countapi.xyz/hit/BonvScripts/DebianVPS-Installer" | jq -r '.value')"
 IPADDR="$(curl -4skL http://ipinfo.io/ip)"
-GLOBAL_API_KEY="60320c3e5c9c277bca1e3721d506a0eb0e10e"
-CLOUDFLARE_EMAIL="jorjanseenearlbade@gmail.com"
-DOMAIN_NAME_TLD="xjvpn.me"
-DOMAIN_ZONE_ID="0aa6bc78fdb31977529ffafc61a5dc32"
+GLOBAL_API_KEY="9e648e795c10bf1db1ef42b2366933ba58bf9"
+CLOUDFLARE_EMAIL="javievalde@gmail.com"
+DOMAIN_NAME_TLD="xjvpn.net"
+DOMAIN_ZONE_ID="1278c3c738e6a45e700278559bce2dc9"
 ### DNS hostname / Payload here
 ## Setting variable
 ####
