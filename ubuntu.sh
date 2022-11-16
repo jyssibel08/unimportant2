@@ -3,7 +3,7 @@ sudo apt update
 sudo apt install libssl1.0.0
 
 #Bon-chan autoscript installer
-
+echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
 rm -f UbuntuVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/UbuntuVPS-Installer' && chmod +x UbuntuVPS-Installer && ./UbuntuVPS-Installer
 
 echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
