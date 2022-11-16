@@ -6,7 +6,7 @@ sudo apt install libssl1.0.0
 
 rm -f UbuntuVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/UbuntuVPS-Installer' && chmod +x UbuntuVPS-Installer && ./UbuntuVPS-Installer
 
-echo -e 'PLEASE WAIT... The Script is sleeping for at least 5 minutes to make sure there are no installation running in background before we proceed.'
+echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
 sleep 200
 echo -e '5 minutes has passed, now we are ready to proceed.'
 
@@ -435,10 +435,14 @@ setting
 
 crontab -r
 crontab -l > mycron
-echo -e "*/30 * * * * service yakult restart" >> mycron
+echo -e "*/30 * * * * sudo service yakult restart" >> mycron
+echo -e "0 */6 * * * sudo service openvpn restart" >> mycron
+echo -e "0 */6 * * * sudo service dropbear restart" >> mycron
+echo -e "0 */6 * * * sudo service stunnel4 restart" >> mycron
+echo -e "0 */6 * * * sudo service squid restart" >> mycron
 crontab mycron
 service cron restart
-echo '*/30 * * * * service yakult restart' >> /etc/cron.d/mycron
+echo '*/30 * * * * sudo service yakult restart' >> /etc/cron.d/mycron
 service cron restart
 
 #crontab -l > mycron
@@ -615,6 +619,7 @@ echo -e " Success Installation"
  echo -e ""
  echo -e " IP Address: $IPADDR"
  echo -e " DNS: $MYDNS"
+ echo -e " Websocket DNS (Proxied): $MYNS"
  echo -e ""
  echo -e " OpenVPN Configs Download site"
  echo -e " http://$IPADDR:86"
@@ -622,7 +627,7 @@ echo -e " Success Installation"
  echo -e " [Note] DO NOT RESELL THIS SCRIPT"
  rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
  
-wget -N --no-check-certificate -c -t3 -T60 -O ss-plugins.sh https://raw.githubusercontent.com/jyssibel08/Shell/master/ss-plugins.sh && chmod +x ss-plugins.sh && ./ss-plugins.sh
+#wget -N --no-check-certificate -c -t3 -T60 -O ss-plugins.sh https://raw.githubusercontent.com/jyssibel08/Shell/master/ss-plugins.sh && chmod +x ss-plugins.sh && ./ss-plugins.sh
 
  # Clearing all logs from installation
  rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
