@@ -674,8 +674,8 @@ service ssh restart
 service sshd restart
 service dropbear restart
 systemctl daemon-reload
-systemctl enable yakult
-systemctl restart yakult
+systemctl enable $proto
+systemctl restart $proto
 systemctl daemon-reload
 systemctl stop syslog
 systemctl disable syslog
@@ -693,10 +693,16 @@ read -rp "Please Select a Protocol：" menu_num2
     1)
 	service
 	service1
+	proto="yakult"
+	type_1="ssh"
+	type_2="OpenSSH"
 	;;
     2)
 	gatorade
 	gatorade1
+	proto="gatorade"
+	type_1="ovpn"
+	type_2="OpenVPN"
 	;;
     *)
         echo -e "${RedBG}Please enter the correct number ${Font}"
@@ -710,14 +716,14 @@ setting
 
 crontab -r
 crontab -l > mycron
-echo -e "*/30 * * * * sudo service yakult restart" >> mycron
+echo -e "*/30 * * * * sudo service $proto restart" >> mycron
 echo -e "0 */6 * * * sudo service openvpn restart" >> mycron
 echo -e "0 */6 * * * sudo service dropbear restart" >> mycron
 echo -e "0 */6 * * * sudo service stunnel4 restart" >> mycron
 echo -e "0 */6 * * * sudo service squid restart" >> mycron
 crontab mycron
 service cron restart
-echo '*/30 * * * * sudo service yakult restart' >> /etc/cron.d/mycron
+echo '*/30 * * * * sudo service  $proto restart' >> /etc/cron.d/mycron
 service cron restart
 
 #crontab -l > mycron
@@ -860,7 +866,7 @@ db_location="$(curl -4skL http://ipinfo.io/city)"
 y=${db_flagt,,}
 country_name="$(curl -4skL http://api.ipstack.com/$(curl -s https://ipinfo.io/ip)?access_key=acdefdfb4ea065c16ec65196e432edf0 | jq -r '.country_name')"
 	mysql -unew -pXamjyss14302082020! -h142.44.136.130 -e"USE new
-	INSERT INTO servers (host, host_address, type, category, ws_dns, hostname, validity, max_user, root_password, location, flag) VALUES ('$country_name $db_hostname', '$IPADDR', 'ssh', '$db_category', '$MYDNS', '$MYNS', '$valid', '$max', '$db_root_password', '$db_location', '$y');"
+	INSERT INTO servers (host, host_address, type, category, ws_dns, hostname, validity, max_user, root_password, location, flag) VALUES ('$country_name $db_hostname', '$IPADDR', '$type_1', '$db_category', '$MYDNS', '$MYNS', '$valid', '$max', '$db_root_password', '$db_location', '$y');"
 	
 	
 bash /etc/profile.d/bonv.sh
@@ -889,7 +895,7 @@ echo -e " Success Installation"
  echo -e ""
  echo -e " Websocket Service Ports: "
  echo -e ""
- echo -e " OpenSSH WS: 80"
+ echo -e " $type_2 WS: 80"
  echo -e " OpenSSL WS: 443"
  echo -e ""
  echo -e " IP Address: $IPADDR"
