@@ -7,9 +7,9 @@ sudo yum install wget
 echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
 rm -f FedoraVPS* && curl -4sSLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/FedoraVPS-Installer' && chmod +x FedoraVPS-Installer && ./FedoraVPS-Installer
 
-echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
-sleep 200
-echo -e '3 minutes has passed, now we are ready to proceed.'
+#echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
+#sleep 200
+#echo -e '3 minutes has passed, now we are ready to proceed.'
 
  OvpnDownload_Port="86"
  IPADDR="$(curl -4skL http://ipinfo.io/ip)"
