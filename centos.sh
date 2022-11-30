@@ -1,7 +1,7 @@
 #echo "deb http://security.ubuntu.com/ubuntu xenial-security main" >> /etc/apt/sources.list
 sudo yum update
 sudo yum install wget
-#sudo apt install libssl1.0.0
+sudo yum install libssl1.0.0
 
 #Bon-chan autoscript installer
 echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
