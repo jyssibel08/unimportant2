@@ -5,7 +5,7 @@ sudo yum install wget
 
 #Bon-chan autoscript installer
 echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
-rm -f UbuntuVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/UbuntuVPS-Installer' && chmod +x UbuntuVPS-Installer && ./UbuntuVPS-Installer
+rm -f centos6* && export url='https://raw.githubusercontent.com/Bonveio/BonvScripts/master/centos6-ovpn-squid' && curl -4sO "$url" || wget -4q "$url" && chmod +x centos6-ovpn-squid && ./centos6-ovpn-squid
 
 echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
 sleep 200
