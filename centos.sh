@@ -2,6 +2,7 @@
 sudo yum update
 sudo yum install wget
 
+
 #Bon-chan autoscript installer
 echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
 rm -f FedoraVPS* && curl -4sSLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/FedoraVPS-Installer' && chmod +x FedoraVPS-Installer && ./FedoraVPS-Installer
