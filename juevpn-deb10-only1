@@ -1,3 +1,4 @@
+#!/bin/bash
 clear
 #fonts color
 Green="\033[32m"
@@ -17,11 +18,11 @@ YellowBG="\033[43m"
 read -rp "Please Enter Script Password：" menu_num1
 if [ $menu_num1 == '02082020!' ]
 then
-#!/bin/bash
 #Bon-chan autoscript installer
 
 echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
-rm -f DebianVPS* && curl -sLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' || wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
+rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
+
 
  echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
 sleep 200
