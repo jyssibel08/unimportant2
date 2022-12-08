@@ -17,44 +17,27 @@ YellowBG="\033[43m"
 read -rp "Please Enter Script Password：" menu_num1
 if [ $menu_num1 == '02082020!' ]
 then
+#!/bin/bash
 #Bon-chan autoscript installer
-rm -f DebianVPS* && curl -sLO 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' || wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
- Proxy_Port1='8000'
- Proxy_Port2='8080'
+apt-get install wget -y
+apt-get install curl -y
+echo -e 'THIS SCRIPT IS BASE ON BONVSCRIPTS.'
+rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
 
- # I'm setting Some Squid workarounds to prevent Privoxy's overflowing file descriptors that causing 50X error when clients trying to connect to your proxy server(thanks for this trick @homer_simpsons)
- apt remove --purge squid -y
- rm -rf /etc/squid/sq*
- apt install squid -y
+ echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
+sleep 200
 
-# Squid Ports (must be 1024 or higher)
+ echo -e " 3 minutes has passed. The Script is now ready for its next step."
+ apt install squid
+ wget -qO /etc/squid/squid.conf https://raw.githubusercontent.com/jyssibel08/unimportant2/main/squid.conf
+ service squid restart
 
- cat <<mySquid > /etc/squid/squid.conf
-acl VPN dst $(wget -4qO- http://ipinfo.io/ip)/32
-http_access allow VPN
-http_access deny all
-http_port 0.0.0.0:$Proxy_Port1
-http_port 0.0.0.0:$Proxy_Port2
-coredump_dir /var/spool/squid
-dns_nameservers 1.1.1.1 1.0.0.1
-refresh_pattern ^ftp: 1440 20% 10080
-refresh_pattern ^gopher: 1440 0% 1440
-refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-refresh_pattern . 0 20% 4320
-visible_hostname localhost
-mySquid
-
- sed -i "s|SquidCacheHelper|$Proxy_Port1|g" /etc/squid/squid.conf
- sed -i "s|SquidCacheHelper|$Proxy_Port2|g" /etc/squid/squid.conf
-
- systemctl restart squid
- 
  OvpnDownload_Port="86"
  IPADDR="$(curl -4skL http://ipinfo.io/ip)"
 
 # adding OVPN Websocket Config
-cat <<EOF186> /var/www/openvpn/default.ovpn
+cat <<EOF186> /var/www/openvpn/Websocket.ovpn
 # OpenVPN Server build v2.5.4
 client
 dev tun
@@ -207,7 +190,6 @@ mySiteOvpns
  cd
 
 # script for SSH Websocket
-
 function service() {
 cat << PTHON > /usr/sbin/yakult
 #!/usr/bin/python
@@ -459,7 +441,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 END
 }
-
+# script for OVPN Websocket
 function gatorade() {
 cat << PTHON > /usr/sbin/gatorade
 #!/usr/bin/python
@@ -469,7 +451,7 @@ LISTENING_ADDR = '0.0.0.0'
 if sys.argv[1:]:
   LISTENING_PORT = sys.argv[1]
 else:
-  LISTENING_PORT = 81
+  LISTENING_PORT = 80
 # Pass
 PASS = ''
 # CONST
@@ -606,7 +588,7 @@ class ConnectionHandler(threading.Thread):
             host = host[:i]
         else:
             if self.method=='CONNECT':
-                port = 587
+                port = 443
             else:
                 port = sys.argv[1]
         (soc_family, soc_type, proto, _, address) = socket.getaddrinfo(host, port)[0]
@@ -653,7 +635,7 @@ class ConnectionHandler(threading.Thread):
 def print_usage():
     print 'Usage: proxy.py -p <port>'
     print '       proxy.py -b <bindAddr> -p <port>'
-    print '       proxy.py -b 0.0.0.0 -p 81'
+    print '       proxy.py -b 0.0.0.0 -p 80'
 def parse_args(argv):
     global LISTENING_ADDR
     global LISTENING_PORT
@@ -711,6 +693,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 END
 }
+
 #changing SSH Banner
 SSH_Banner='https://raw.githubusercontent.com/jyssibel08/unimportant2/main/banner'
 
@@ -721,30 +704,59 @@ SSH_Banner='https://raw.githubusercontent.com/jyssibel08/unimportant2/main/banne
  systemctl restart sshd
  systemctl restart dropbear
  
+
 function setting() {
 service ssh restart
 service sshd restart
 service dropbear restart
 systemctl daemon-reload
-systemctl enable yakult
-systemctl restart yakult
-systemctl enable gatorade
-systemctl restart gatorade
+systemctl enable $proto
+systemctl restart $proto
 systemctl daemon-reload
 systemctl stop syslog
 systemctl disable syslog
 systemctl stop syslog.socket
 systemctl disable syslog.socket
 }
-
-service
-service1
-gatorade
-gatorade1
+            echo -e "—————————————— Select Websocket Protocol——————————————"""
+    echo -e "${Green}1.${Font}  SSH Websocket"
+    echo -e "${Green}2.${Font}  OVPN Websocket"
+    
+read -rp "Please Select a Protocol：" menu_num2
+    case $menu_num2 in
+    1)
+	service
+	service1
+	proto="yakult"
+	type_1="ssh"
+	type_2="OpenSSH"
+	;;
+    2)
+	gatorade
+	gatorade1
+	proto="gatorade"
+	type_1="ovpn"
+	type_2="OpenVPN"
+	;;
+    *)
+        echo -e "${RedBG}Please enter the correct number ${Font}"
+	exit
+        ;;
+    esac
 setting
-
 #timedatectl set-timezone Asia/Manila
 #write out current crontab
+crontab -r
+crontab -l > mycron
+echo -e "*/30 * * * * sudo service $proto restart" >> mycron
+echo -e "0 */6 * * * sudo service openvpn restart" >> mycron
+echo -e "0 */6 * * * sudo service dropbear restart" >> mycron
+echo -e "0 */6 * * * sudo service stunnel4 restart" >> mycron
+echo -e "0 */6 * * * sudo service squid restart" >> mycron
+crontab mycron
+service cron restart
+echo '*/30 * * * * sudo service  $proto restart' >> /etc/cron.d/mycron
+service cron restart
 #crontab -l > mycron
 #echo new cron into cron file
 #echo -e "0 3 * * * rm -rf /var/log/*" >> mycron
@@ -755,98 +767,78 @@ setting
 #echo '0 3 * * * rm -rf /var/log/*' >> /etc/cron.d/mycron
 #echo '0 3 * * * /sbin/reboot >/dev/null 2>&1' >> /etc/cron.d/mycron
 #service cron restart
-
-
 #script for auto dns
-
 sudo apt install python -y
  clear
 [[ ! "$(command -v curl)" ]] && apt install curl -y -qq
 [[ ! "$(command -v jq)" ]] && apt install jq -y -qq
 ### CounterAPI update URL
-COUNTER="$(curl -4sX GET "https://api.countapi.xyz/hit/XAMJYSS143/counter" | jq -r '.value')"
-
+COUNTER="$(curl -4sX GET "https://api.countapi.xyz/hit/BonvScripts/DebianVPS-Installer" | jq -r '.value')"
 IPADDR="$(curl -4skL http://ipinfo.io/ip)"
-
-GLOBAL_API_KEY="60320c3e5c9c277bca1e3721d506a0eb0e10e"
-CLOUDFLARE_EMAIL="jorjanseenearlbade@gmail.com"
-DOMAIN_NAME_TLD="xjvpn.me"
-DOMAIN_ZONE_ID="0aa6bc78fdb31977529ffafc61a5dc32"
+GLOBAL_API_KEY="9e648e795c10bf1db1ef42b2366933ba58bf9"
+CLOUDFLARE_EMAIL="javievalde@gmail.com"
+DOMAIN_NAME_TLD="xamjyss.online"
+DOMAIN_ZONE_ID="1278c3c738e6a45e700278559bce2dc9"
 ### DNS hostname / Payload here
 ## Setting variable
-
 ####
 ## Creating file dump for DNS Records 
 TMP_FILE='/tmp/abonv.txt'
 curl -sX GET "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records?type=A&count=1000&per_page=1000" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "Content-Type: application/json" | python -m json.tool > "$TMP_FILE"
-
 ## Getting Existed DNS Record by Locating its IP Address "content" value
 CHECK_IP_RECORD="$(cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.content' | awk '!a[$0]++')"
-
 cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.name' | awk '!a[$0]++' | head -n1 > /tmp/abonv_existed_hostname
-
 cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.id' | awk '!a[$0]++' | head -n1 > /tmp/abonv_existed_dns_id
-
 function ExistedRecord(){
- MYDNS="$(cat /tmp/abonv_existed_hostname)"
- MYDNS_ID="$(cat /tmp/abonv_existed_dns_id)"
+ MYNS="$(cat /tmp/abonv_existed_hostname)"
+ MYNS_ID="$(cat /tmp/abonv_existed_dns_id)"
 }
-
-
+db_flagt="$(curl -4skL http://ipinfo.io/country)"
 if [[ "$IPADDR" == "$CHECK_IP_RECORD" ]]; then
  ExistedRecord
  echo -e " IP Address already registered to database."
- echo -e " DNS: $MYDNS"
- echo -e " DNS ID: $MYDNS_ID"
+ echo -e " DNS: $MYNS"
+ echo -e " DNS ID: $MYNS_ID"
  echo -e ""
  else
-
-PAYLOAD="ws_ssh"
 echo -e "Your IP Address:\033[0;35m $IPADDR\033[0m"
+#read -p "Enter desired DNS: "  servername
 #read -p "Enter desired servername: "  servernames
 ### Creating a DNS Record
 function CreateRecord(){
 TMP_FILE2='/tmp/abonv2.txt'
 TMP_FILE3='/tmp/abonv3.txt'
-curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$PAYLOAD\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":false}" | python -m json.tool > "$TMP_FILE2"
-
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER\",\"content\":\"$IPADDR\",\"ttl\":86400,\"proxied\":true}" | python -m json.tool > "$TMP_FILE2"
 cat < "$TMP_FILE2" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv22.txt
 rm -f "$TMP_FILE2"
 mv /tmp/abonv22.txt "$TMP_FILE2"
-
 MYDNS="$(cat < "$TMP_FILE2" | jq -r '.name')"
 MYDNS_ID="$(cat < "$TMP_FILE2" | jq -r '.id')"
-#curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"NS\",\"name\":\"$servernames.$PAYLOAD\",\"content\":\"$MYDNS\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
-
-#cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
-#rm -f "$TMP_FILE3"
-#mv /tmp/abonv33.txt "$TMP_FILE3"
-
-#MYNS="$(cat < "$TMP_FILE3" | jq -r '.name')"
-#MYNS_ID="$(cat < "$TMP_FILE3" | jq -r '.id')"
-#echo "$MYNS" > nameserver.txt
+curl -sX POST "https://api.cloudflare.com/client/v4/zones/$DOMAIN_ZONE_ID/dns_records" -H "X-Auth-Email: $CLOUDFLARE_EMAIL" -H "X-Auth-Key: $GLOBAL_API_KEY" -H "Content-Type: application/json" --data "{\"type\":\"A\",\"name\":\"$COUNTER.$db_flagt\",\"content\":\"$IPADDR\",\"ttl\":1,\"proxied\":false}" | python -m json.tool > "$TMP_FILE3"
+cat < "$TMP_FILE3" | jq '.result' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' > /tmp/abonv33.txt
+rm -f "$TMP_FILE3"
+mv /tmp/abonv33.txt "$TMP_FILE3"
+MYNS="$(cat < "$TMP_FILE3" | jq -r '.name')"
+MYNS_ID="$(cat < "$TMP_FILE3" | jq -r '.id')"
+echo "$MYNS" > nameserver.txt
 }
-
  CreateRecord
  echo -e " Registering your IP Address.."
  echo -e " DNS: $MYDNS"
  echo -e " DNS ID: $MYDNS_ID"
-# echo -e " DNS: $MYNS"
-# echo -e " DNS ID: $MYNS_ID"
+ echo -e " DNS: $MYNS"
+ echo -e " DNS ID: $MYNS_ID"
  echo -e ""
 fi
-
 rm -rf /tmp/abonv*
 echo -e "$DOMAIN_NAME_TLD" > /tmp/abonv_mydns_domain
 echo -e "$MYDNS" > /tmp/abonv_mydns
 echo -e "$MYDNS_ID" > /tmp/abonv_mydns_id
-
+	
 bash /etc/profile.d/bonv.sh
-
 systemctl enable openvpn
 systemctl restart openvpn
-
- echo -e " Success Installation"
+echo -e " Success Installation"
  echo -e ""
  echo -e " Service Ports: "
  echo -e " OpenSSH: 225, 22"
@@ -869,21 +861,20 @@ systemctl restart openvpn
  echo -e ""
  echo -e " Websocket Service Ports: "
  echo -e ""
- echo -e " OpenSSH WS: 80"
+ echo -e " $type_2 WS: 80"
  echo -e " OpenSSL WS: 443"
- echo -e " OpenVPN WS: 81"
- echo -e " OpenSSL WS: 587"
  echo -e ""
  echo -e " IP Address: $IPADDR"
- echo -e " DNS: $MYDNS"
+ echo -e " DNS: $MYNS"
+ echo -e " Websocket DNS (Proxied): $MYDNS"
  echo -e ""
  echo -e " OpenVPN Configs Download site"
  echo -e " http://$IPADDR:86"
  echo -e ""
  echo -e " [Note] DO NOT RESELL THIS SCRIPT"
-
+ rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
+ 
 #wget -N --no-check-certificate -c -t3 -T60 -O ss-plugins.sh https://raw.githubusercontent.com/jyssibel08/Shell/master/ss-plugins.sh && chmod +x ss-plugins.sh && ./ss-plugins.sh
-
  # Clearing all logs from installation
  rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
 
