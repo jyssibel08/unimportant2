@@ -168,7 +168,7 @@ else:
 PASS = ''
 # CONST
 BUFLEN = 4096 * 4
-TIMEOUT = 3600
+TIMEOUT = 86400
 DEFAULT_HOST = '127.0.0.1:550'
 RESPONSE = 'HTTP/1.1 101 <font color="yellow">XAMJYSSVPN|CoronaSSH</font>\r\n\r\nContent-Length: 104857600000\r\n\r\n'
 class Server(threading.Thread):
@@ -422,7 +422,7 @@ else:
 PASS = ''
 # CONST
 BUFLEN = 4096 * 4
-TIMEOUT = 3600
+TIMEOUT = 86400
 DEFAULT_HOST = '127.0.0.1:110'
 RESPONSE = 'HTTP/1.1 101 <font color="green">XAMJYSSVPN|CoronaSSH</font>\r\n\r\nContent-Length: 104857600000\r\n\r\n'
 class Server(threading.Thread):
@@ -716,14 +716,12 @@ setting
 
 crontab -r
 crontab -l > mycron
-echo -e "*/30 * * * * sudo service $proto restart" >> mycron
 echo -e "0 */6 * * * sudo service openvpn restart" >> mycron
 echo -e "0 */6 * * * sudo service dropbear restart" >> mycron
 echo -e "0 */6 * * * sudo service stunnel4 restart" >> mycron
 echo -e "0 */6 * * * sudo service squid restart" >> mycron
 crontab mycron
 service cron restart
-echo '*/30 * * * * sudo service  $proto restart' >> /etc/cron.d/mycron
 service cron restart
 
 #crontab -l > mycron
