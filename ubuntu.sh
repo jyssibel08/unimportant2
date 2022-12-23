@@ -758,14 +758,14 @@ CHECK_IP_RECORD="$(cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'de
 cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.name' | awk '!a[$0]++' | head -n1 > /tmp/abonv_existed_hostname
 cat < "$TMP_FILE" | jq '.result[]' | jq 'del(.meta)' | jq 'del(.created_on,.locked,.modified_on,.proxiable,.proxied,.ttl,.type,.zone_id,.zone_name)' | jq '. | select(.content=='\"$IPADDR\"')' | jq -r '.id' | awk '!a[$0]++' | head -n1 > /tmp/abonv_existed_dns_id
 function ExistedRecord(){
- MYDNS="$(cat /tmp/abonv_existed_hostname)"
- MYDNS_ID="$(cat /tmp/abonv_existed_dns_id)"
+ MYNS="$(cat /tmp/abonv_existed_hostname)"
+ MYNS_ID="$(cat /tmp/abonv_existed_dns_id)"
 }
 if [[ "$IPADDR" == "$CHECK_IP_RECORD" ]]; then
  ExistedRecord
  echo -e " IP Address already registered to database."
- echo -e " DNS: $MYDNS"
- echo -e " DNS ID: $MYDNS_ID"
+ echo -e " DNS: $MYNS"
+ echo -e " DNS ID: $MYNS_ID"
  echo -e ""
  else
 db_flagt="$(curl -4skL http://ipinfo.io/country)"
