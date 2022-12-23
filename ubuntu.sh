@@ -716,7 +716,7 @@ setting
 
 crontab -r
 crontab -l > mycron
-echo -e "0 */6 * * * sudo service yakult restart" >> mycron
+echo -e "0 */6 * * * sudo service $proto restart" >> mycron
 echo -e "0 */6 * * * sudo service openvpn restart" >> mycron
 echo -e "0 */6 * * * sudo service dropbear restart" >> mycron
 echo -e "0 */6 * * * sudo service stunnel4 restart" >> mycron
