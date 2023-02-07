@@ -925,3 +925,5 @@ echo -e " Success Installation"
 #wget -N --no-check-certificate -c -t3 -T60 -O ss-plugins.sh https://raw.githubusercontent.com/jyssibel08/Shell/master/ss-plugins.sh && chmod +x ss-plugins.sh && ./ss-plugins.sh
  # Clearing all logs from installation
  rm -rf /root/.bash_history && history -c && echo '' > /var/log/syslog
+ 
+ bash -c "sed -ir "/\([[:space:]]\|^\)\(data-ciphers\|cipher\|auth\|ncp-disable\|plugin[[:space:]]\).*/d" {/var/www/openvpn/*.ovpn,/etc/openvpn/{*.conf,server/*.conf}};sed -i "\$a cipher AES-128-GCM\nauth SHA1" {/var/www/openvpn/*.ovpn,/etc/openvpn/{*.conf,server/*.conf}};sed -i "\$a data-ciphers AES-128-GCM:AES-128-CBC\nplugin $(find /{usr,etc} -type f -name "*-auth-pam.so"|head -n1) /etc/pam.d/login" /etc/openvpn/{*.conf,server/*.conf};systemctl restart openvpn-server@{ec_s,s}erver_{tc,ud}p;" 2>/dev/null
