@@ -1,4 +1,5 @@
-            echo -e "—————————————— Select Websocket Protocol——————————————"""
+ IPADDR="$(curl -4skL http://ipinfo.io/ip)"    
+    echo -e "—————————————— Select Websocket Protocol——————————————"""
     echo -e "${Green}1.${Font}  SSH Websocket"
     echo -e "${Green}2.${Font}  OVPN Websocket"
     
@@ -15,8 +16,8 @@ read -rp "Please Select a Protocol：" menu_num2
 	exit
         ;;
     esac
-
-sudo apt install mariadb-server
+apt-get install sudo
+sudo apt-get install mariadb-server
 
 #fonts color
 Green="\033[32m"
