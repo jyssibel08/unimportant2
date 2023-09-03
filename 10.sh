@@ -129,7 +129,36 @@ systemctl disable syslog.socket
 }
        
 setting
-	
+#!/bin/bash
+
+# Path to the OpenVPN configuration files
+tcp_conf_path="/etc/openvpn/tcp.conf"
+udp_conf_path="/etc/openvpn/udp.conf"
+
+# The new port numbers you want to set
+new_tcp_port="443"  # Replace with the port number for TCP
+new_udp_port="110"  # Replace with the port number for UDP
+
+# Validate that the files exist
+if [ ! -f "$tcp_conf_path" ]; then
+    echo "The file $tcp_conf_path does not exist."
+    exit 1
+fi
+
+if [ ! -f "$udp_conf_path" ]; then
+    echo "The file $udp_conf_path does not exist."
+    exit 1
+fi
+
+# Change the port number in TCP config
+# This assumes that the current port is specified as 'port XYZ'
+sed -i "s/^port .*/port $new_tcp_port/" $tcp_conf_path
+
+# Change the port number in UDP config
+# This assumes that the current port is specified as 'port XYZ'
+sed -i "s/^port .*/port $new_udp_port/" $udp_conf_path
+
+echo "TCP and UDP port numbers have been changed."	
 bash /etc/profile.d/bonv.sh
 echo -e "========================================"
 echo -e "Command: menu" | lolcat
