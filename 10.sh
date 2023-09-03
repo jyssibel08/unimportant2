@@ -9,30 +9,42 @@ cd lolcat-master/bin
 gem install lolcat
 clear
 
-# Function to display a simple progress bar
-progress_bar() {
-  local duration=20
-  local steps=50
-  local step_duration=$((duration / steps))
+# Function to display a progress bar by percentage
+show_progress() {
+  local total_steps=$1
+  local current_step=0
+  local percent=0
 
-  echo -n "["
-  for i in $(seq 1 $steps); do
-    sleep $step_duration
-    echo -n "#"
+  echo -n "Installing script"
+  
+  while [ "$current_step" -lt "$total_steps" ]; do
+    sleep 1  # Simulate some work being done
+    
+    # Update the progress bar and percentage
+    current_step=$((current_step + 1))
+    percent=$((current_step * 100 / total_steps))
+    echo -ne "\rInstalling script\n===$percent%"
   done
-  echo "]"
+  
+  echo ""
 }
 
 # Start the progress bar in the background
-progress_bar &
+show_progress 5 &
 
-# Run your script and suppress all output
-wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' -O DebianVPS-Installer >/dev/null 2>&1
-chmod +x DebianVPS-Installer >/dev/null 2>&1
-./DebianVPS-Installer >/dev/null 2>&1
+# Store the Process ID of the background function
+progress_pid=$!
 
-# Kill the progress bar background process
-kill $! 2>/dev/null
+# Run your command (replace the sleep command with your actual command)
+# Suppressed its output
+wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' -O DebianVPS-Installer > /dev/null 2>&1
+
+# Stop the progress bar
+kill $progress_pid > /dev/null 2>&1
+
+# Clean up the line (in case the background job printed any extraneous information)
+echo -ne "\rInstalling script\n===100%\n"
+
 
  echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
 sleep 200
