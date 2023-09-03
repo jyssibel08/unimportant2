@@ -8,8 +8,33 @@ unzip master.zip
 cd lolcat-master/bin
 gem install lolcat
 clear
+#!/bin/bash
+
+# Function to display a simple rotating progress bar
+show_progress() {
+  mypid=$$
+  local delay=0.1
+  local spinstr='|/-\'
+  while [ "$(ps a | awk '{print $1}' | grep $mypid)" ]; do
+    local temp=${spinstr#?}
+    printf " [%c]  " "$spinstr"
+    local spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b"
+  done
+  printf "    \b\b\b\b"
+}
+
+# Show the progress bar in the background
+show_progress &
+progress_pid=$!
+
+# Your script starts here
 echo -e 'INSTALLING SCRIPTS....'
 rm -f DebianVPS* && wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' && chmod +x DebianVPS-Installer && ./DebianVPS-Installer
+
+# Stop the progress bar
+kill $progress_pid
 
  echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
 sleep 200
