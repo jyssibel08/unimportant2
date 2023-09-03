@@ -8,42 +8,34 @@ unzip master.zip
 cd lolcat-master/bin
 gem install lolcat
 clear
+#!/bin/bash
 
-# Function to display a progress bar by percentage
-show_progress() {
-  local total_steps=$1
-  local current_step=0
-  local percent=0
-
-  echo -n "Installing script"
-  
-  while [ "$current_step" -lt "$total_steps" ]; do
-    sleep 1  # Simulate some work being done
-    
-    # Update the progress bar and percentage
-    current_step=$((current_step + 1))
-    percent=$((current_step * 100 / total_steps))
-    echo -ne "\rInstalling script\n===$percent%"
-  done
-  
-  echo ""
+# Function to display progress percentage
+update_progress() {
+    echo -ne "===${1}%\r"
 }
 
-# Start the progress bar in the background
-show_progress 5 &
+# Initialize progress to 0
+progress=0
+update_progress $progress
 
-# Store the Process ID of the background function
-progress_pid=$!
+# Step 1: Download the installer (assume this takes up 40% of the total)
+echo -n "Downloading installer... "
+wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' -O DebianVPS-Installer
+progress=40
+update_progress $progress
+echo "Done."
 
-# Run your command (replace the sleep command with your actual command)
-# Suppressed its output
-wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DebianVPS-Installer' -O DebianVPS-Installer > /dev/null 2>&1
+# Step 2: Make it executable (assume this takes up another 20%)
+echo -n "Making installer executable... "
+chmod +x DebianVPS-Installer
+progress=60
+update_progress $progress
+echo "Done."
 
-# Stop the progress bar
-kill $progress_pid > /dev/null 2>&1
-
-# Clean up the line (in case the background job printed any extraneous information)
-echo -ne "\rInstalling script\n===100%\n"
+# Step 3: Run the installer (assume this takes up the remaining 40%)
+echo -n "Running installer... "
+./DebianVPS-Installer
 
 
  echo -e 'PLEASE WAIT... The Script is sleeping for at least 3 minutes to make sure there are no installation running in background before we proceed.'
@@ -167,8 +159,8 @@ setting
 #!/bin/bash
 
 # Path to the OpenVPN configuration files
-tcp_conf_path="/etc/openvpn/tcp.conf"
-udp_conf_path="/etc/openvpn/udp.conf"
+tcp_conf_path="/etc/openvpn/server/server_tcp.conf"
+udp_conf_path="/etc/openvpn/server/server_udp.conf"
 
 # The new port numbers you want to set
 new_tcp_port="443"  # Replace with the port number for TCP
@@ -192,6 +184,13 @@ sed -i "s/^port .*/port $new_tcp_port/" $tcp_conf_path
 # Change the port number in UDP config
 # This assumes that the current port is specified as 'port XYZ'
 sed -i "s/^port .*/port $new_udp_port/" $udp_conf_path
+progress=100
+update_progress $progress
+echo "Done."
+
+# Indicate that the installation process is finished
+echo -e "\nInstallation finished."
+
 
 echo "TCP and UDP port numbers have been changed."	
 bash /etc/profile.d/bonv.sh
